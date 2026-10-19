@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="VluchtWinkel: beheer en verkoop van vluchten.">
+  <title>{% block title %}VluchtWinkel{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav">
+      <a class="brand" href="{{ url_for('main.index') }}">Vlucht<span>Winkel</span></a>
+      <nav class="nav-links" aria-label="Hoofdnavigatie">
+        <a href="{{ url_for('main.index') }}">Vluchten</a>
+        <a href="{{ url_for('main.booking_lookup') }}">Boeking opzoeken</a>
+        {% if session.get('is_admin') %}
+          <a href="{{ url_for('main.admin_dashboard') }}">Beheer</a>
+          <form class="inline-form" action="{{ url_for('main.admin_logout') }}" method="post">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <button class="btn btn-small btn-secondary" type="submit">Uitloggen</button>
+          </form>
+        {% else %}
+          <a href="{{ url_for('main.admin_login') }}">Beheerlogin</a>
+        {% endif %}
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% for category, message in messages %}
+        <div class="alert alert-{{ category if category in ['success', 'error', 'info'] else 'info' }}" role="alert">{{ message }}</div>
+      {% endfor %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer>
+    <div class="container">VluchtWinkel · Flask-demonstratie voor vluchtbeheer en boekingen</div>
+  </footer>
+</body>
+</html>

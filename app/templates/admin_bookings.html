@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %}Boekingen · VluchtWinkel{% endblock %}
+{% block content %}
+<div class="topbar"><div><a href="{{ url_for('main.admin_dashboard') }}">← Terug naar beheer</a><h1>Alle boekingen</h1></div></div>
+<section class="card">
+  <div class="table-wrap"><table>
+    <thead><tr><th>Referentie</th><th>Passagier</th><th>Vlucht</th><th>Vertrek</th><th>Stoelen</th><th>Totaal</th><th>Status</th><th>Actie</th></tr></thead>
+    <tbody>
+      {% for booking in bookings %}<tr>
+        <td><strong>{{ booking.booking_reference }}</strong></td>
+        <td>{{ booking.passenger_name }}<br><span class="muted">{{ booking.passenger_email }}</span></td>
+        <td>{{ booking.flight_number }}<br><span class="muted">{{ booking.origin }} → {{ booking.destination }}</span></td>
+        <td>{{ booking.departure_at|nl_datetime }}</td><td>{{ booking.seats }}</td><td>{{ booking.total_price_cents|money }}</td>
+        <td><span class="badge badge-{{ booking.status|lower }}">{{ 'Bevestigd' if booking.status == 'CONFIRMED' else 'Geannuleerd' }}</span></td>
+        <td>{% if booking.status == 'CONFIRMED' %}<form method="post" action="{{ url_for('main.admin_booking_cancel', booking_id=booking.id) }}" onsubmit="return confirm('Deze boeking annuleren?')"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button class="btn btn-small btn-danger" type="submit">Annuleren</button></form>{% else %}—{% endif %}</td>
+      </tr>{% else %}<tr><td colspan="8" class="empty">Nog geen boekingen.</td></tr>{% endfor %}
+    </tbody>
+  </table></div>
+</section>
+{% endblock %}

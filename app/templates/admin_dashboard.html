@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block title %}Beheer · VluchtWinkel{% endblock %}
+{% block content %}
+<div class="topbar"><h1>Beheerdersdashboard</h1><div class="actions"><a class="btn btn-secondary" href="{{ url_for('main.admin_bookings') }}">Alle boekingen</a><a class="btn" href="{{ url_for('main.admin_flight_new') }}">+ Nieuwe vlucht</a></div></div>
+<div class="stats">
+  <div class="stat"><span>Vluchten</span><strong>{{ stats.flights }}</strong></div>
+  <div class="stat"><span>Te koop</span><strong>{{ stats.on_sale }}</strong></div>
+  <div class="stat"><span>Bevestigde boekingen</span><strong>{{ stats.bookings }}</strong></div>
+  <div class="stat"><span>Omzet*</span><strong>{{ stats.revenue_cents|money }}</strong></div>
+</div>
+<section class="card">
+  <div class="topbar"><h2>Vluchten</h2><span class="muted">* Bruto boekingswaarde, zonder betalingen</span></div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Vlucht</th><th>Route</th><th>Vertrek</th><th>Status</th><th>Stoelen</th><th>Prijs</th><th>Acties</th></tr></thead>
+      <tbody>
+      {% for flight in flights %}
+        <tr>
+          <td><strong>{{ flight.flight_number }}</strong></td>
+          <td>{{ flight.origin }}<br>→ {{ flight.destination }}</td>
+          <td>{{ flight.departure_at|nl_datetime }}</td>
+          <td><span class="badge badge-{{ flight.status|lower|replace('_', '-') }}">{{ labels[flight.status] }}</span></td>
+          <td>{{ flight.booked_seats }} / {{ flight.capacity }}<br><span class="muted">{{ flight.available_seats }} vrij</span></td>
+          <td>{{ flight.price_cents|money }}</td>
+          <td><div class="actions">
+            <a class="btn btn-small btn-secondary" href="{{ url_for('main.admin_flight_edit', flight_id=flight.id) }}">Bewerken</a>
+            <form class="inline-form" method="post" action="{{ url_for('main.admin_flight_status', flight_id=flight.id) }}">
+              <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+              {% if flight.status == 'ON_SALE' %}<input type="hidden" name="status" value="PAUSED"><button class="btn btn-small btn-danger" type="submit">Pauzeren</button>
+              {% else %}<input type="hidden" name="status" value="ON_SALE"><button class="btn btn-small btn-success" type="submit">Te koop zetten</button>{% endif %}
+            </form>
+          </div></td>
+        </tr>
+      {% else %}<tr><td colspan="7" class="empty">Nog geen vluchten aangemaakt.</td></tr>{% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+{% endblock %}

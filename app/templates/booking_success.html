@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %}Boeking bevestigd · VluchtWinkel{% endblock %}
+{% block content %}
+<section class="card confirmation">
+  <div style="font-size:3rem">✓</div>
+  <h1>Boeking bevestigd</h1>
+  <p>Bewaar deze boekingsreferentie goed:</p>
+  <div class="reference">{{ booking.booking_reference }}</div>
+  <p><strong>{{ booking.passenger_name }}</strong>, je hebt {{ booking.seats }} stoel{% if booking.seats != 1 %}en{% endif %} geboekt op vlucht {{ booking.flight_number }}.</p>
+</section>
+<section class="card">
+  <h2>Reisoverzicht</h2>
+  <div class="grid grid-2">
+    <div><span class="muted">Route</span><h3>{{ booking.origin }} → {{ booking.destination }}</h3></div>
+    <div><span class="muted">Vertrek</span><h3>{{ booking.departure_at|nl_datetime }}</h3></div>
+    <div><span class="muted">E-mailadres</span><h3>{{ booking.passenger_email }}</h3></div>
+    <div><span class="muted">Totaalprijs</span><h3>{{ booking.total_price_cents|money }}</h3></div>
+  </div>
+  <div class="actions"><a class="btn" href="{{ url_for('main.index') }}">Meer vluchten</a><a class="btn btn-secondary" href="{{ url_for('main.booking_lookup') }}">Boeking opzoeken</a></div>
+</section>
+{% endblock %}

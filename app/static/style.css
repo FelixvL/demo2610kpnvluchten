@@ -1,0 +1,97 @@
+:root {
+  --navy: #10233f;
+  --blue: #1261a0;
+  --sky: #eaf5ff;
+  --teal: #00a896;
+  --orange: #ff8a3d;
+  --red: #c73636;
+  --ink: #18212f;
+  --muted: #667085;
+  --line: #d9e2ec;
+  --paper: #ffffff;
+  --bg: #f4f7fb;
+  --shadow: 0 12px 35px rgba(16, 35, 63, .10);
+}
+* { box-sizing: border-box; }
+body { margin: 0; color: var(--ink); background: var(--bg); font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; line-height: 1.55; }
+a { color: var(--blue); text-decoration: none; }
+a:hover { text-decoration: underline; }
+.container { width: min(1120px, calc(100% - 32px)); margin: 0 auto; }
+.site-header { background: var(--navy); color: #fff; position: sticky; top: 0; z-index: 10; box-shadow: 0 3px 20px rgba(0,0,0,.16); }
+.nav { min-height: 68px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+.brand { color: #fff; font-size: 1.35rem; font-weight: 800; letter-spacing: -.03em; }
+.brand span { color: #65d6ca; }
+.nav-links { display: flex; align-items: center; gap: 18px; }
+.nav-links a { color: #eaf5ff; font-weight: 650; }
+main.container { padding: 34px 0 60px; min-height: calc(100vh - 140px); }
+.hero { border-radius: 24px; padding: clamp(28px, 5vw, 60px); color: #fff; background: linear-gradient(120deg, rgba(16,35,63,.96), rgba(18,97,160,.86)), radial-gradient(circle at 85% 20%, #65d6ca, transparent 45%); box-shadow: var(--shadow); margin-bottom: 28px; }
+.hero h1 { font-size: clamp(2rem, 5vw, 4rem); line-height: 1.05; margin: 0 0 12px; max-width: 780px; letter-spacing: -.045em; }
+.hero p { margin: 0; color: #dcecff; font-size: 1.1rem; max-width: 680px; }
+.card { background: var(--paper); border: 1px solid var(--line); border-radius: 18px; padding: 24px; box-shadow: 0 8px 26px rgba(16,35,63,.06); margin-bottom: 22px; }
+.card h1, .card h2, .card h3 { margin-top: 0; }
+.grid { display: grid; gap: 20px; }
+.grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.search-grid { display: grid; grid-template-columns: 1fr 1fr .8fr auto; gap: 14px; align-items: end; }
+label { display: block; font-weight: 700; margin-bottom: 7px; }
+input, select, textarea { width: 100%; border: 1px solid #b8c5d3; border-radius: 10px; padding: 11px 12px; background: #fff; color: var(--ink); font: inherit; }
+input:focus, select:focus, textarea:focus { outline: 3px solid rgba(18,97,160,.15); border-color: var(--blue); }
+textarea { min-height: 110px; resize: vertical; }
+.form-group { margin-bottom: 16px; }
+.help { color: var(--muted); font-size: .9rem; margin-top: 5px; }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; border: 0; border-radius: 10px; padding: 11px 17px; background: var(--blue); color: #fff; font-weight: 750; cursor: pointer; font: inherit; }
+.btn:hover { text-decoration: none; filter: brightness(.94); }
+.btn-secondary { background: #e8eef5; color: var(--navy); }
+.btn-success { background: var(--teal); }
+.btn-danger { background: var(--red); }
+.btn-small { padding: 7px 11px; font-size: .9rem; }
+.actions { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+.flight-card { display: grid; grid-template-columns: 1.2fr auto 1.2fr auto; gap: 24px; align-items: center; }
+.airport { font-size: 1.15rem; font-weight: 800; }
+.date { color: var(--muted); }
+.route-line { color: var(--blue); font-weight: 700; white-space: nowrap; }
+.price { text-align: right; }
+.price strong { display: block; font-size: 1.5rem; }
+.badge { display: inline-flex; align-items: center; border-radius: 999px; padding: 4px 10px; font-weight: 750; font-size: .82rem; background: #edf2f7; color: #475467; }
+.badge-sale { background: #d8f7ef; color: #087466; }
+.badge-draft { background: #fff1cf; color: #8a5b00; }
+.badge-paused, .badge-cancelled { background: #ffe3e3; color: #a52525; }
+.badge-confirmed { background: #d8f7ef; color: #087466; }
+.alert { border-radius: 12px; padding: 13px 16px; margin: 0 0 18px; border: 1px solid transparent; }
+.alert-success { background: #dcf8ee; color: #075e51; border-color: #a7e6d7; }
+.alert-error { background: #ffeded; color: #942323; border-color: #f4b7b7; }
+.alert-info { background: var(--sky); color: #164f78; border-color: #b9dbf5; }
+table { width: 100%; border-collapse: collapse; }
+th, td { padding: 12px 10px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+th { color: var(--muted); font-size: .82rem; text-transform: uppercase; letter-spacing: .045em; }
+.table-wrap { overflow-x: auto; }
+.stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 22px; }
+.stat { background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 19px; }
+.stat span { color: var(--muted); font-size: .9rem; }
+.stat strong { display: block; font-size: 1.65rem; margin-top: 2px; }
+.split { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(300px, .7fr); gap: 24px; align-items: start; }
+.summary { position: sticky; top: 92px; }
+.kv { display: flex; justify-content: space-between; gap: 20px; padding: 10px 0; border-bottom: 1px solid var(--line); }
+.kv:last-child { border-bottom: 0; }
+.empty { text-align: center; padding: 45px 20px; color: var(--muted); }
+.confirmation { text-align: center; }
+.reference { display: inline-block; background: var(--navy); color: #fff; border-radius: 12px; padding: 10px 18px; font-size: 1.45rem; letter-spacing: .12em; font-weight: 850; margin: 8px 0 18px; }
+footer { border-top: 1px solid var(--line); padding: 24px 0; color: var(--muted); background: #fff; }
+.inline-form { display: inline; }
+.muted { color: var(--muted); }
+.topbar { display: flex; justify-content: space-between; align-items: center; gap: 18px; margin-bottom: 20px; }
+.topbar h1 { margin: 0; }
+@media (max-width: 850px) {
+  .search-grid, .grid-2, .grid-3, .split, .stats { grid-template-columns: 1fr 1fr; }
+  .flight-card { grid-template-columns: 1fr auto; }
+  .route-line { display: none; }
+  .summary { position: static; }
+}
+@media (max-width: 600px) {
+  .nav { align-items: flex-start; padding: 14px 0; }
+  .nav-links { flex-direction: column; align-items: flex-end; gap: 5px; }
+  .search-grid, .grid-2, .grid-3, .split, .stats { grid-template-columns: 1fr; }
+  .flight-card { grid-template-columns: 1fr; }
+  .price { text-align: left; }
+  main.container { padding-top: 22px; }
+}

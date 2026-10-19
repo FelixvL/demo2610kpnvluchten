@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block title %}Beheerlogin · VluchtWinkel{% endblock %}
+{% block content %}
+<section class="card" style="max-width:520px;margin:30px auto">
+  <h1>Beheerlogin</h1>
+  <p class="muted">Log in om vluchten en boekingen te beheren.</p>
+  <form method="post">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <div class="form-group"><label for="password">Wachtwoord</label><input id="password" name="password" type="password" required autocomplete="current-password"></div>
+    <button class="btn" type="submit">Inloggen</button>
+  </form>
+</section>
+{% endblock %}

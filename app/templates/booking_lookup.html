@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %}Boeking opzoeken · VluchtWinkel{% endblock %}
+{% block content %}
+<div class="split">
+  <section class="card">
+    <h1>Boeking opzoeken</h1>
+    <p class="muted">Vul de referentie en het e-mailadres van de boeking in.</p>
+    <form method="post">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      <div class="form-group"><label for="booking_reference">Boekingsreferentie</label><input id="booking_reference" name="booking_reference" placeholder="VW-ABC1234" required></div>
+      <div class="form-group"><label for="passenger_email">E-mailadres</label><input id="passenger_email" name="passenger_email" type="email" required></div>
+      <button class="btn" type="submit">Opzoeken</button>
+    </form>
+  </section>
+  {% if booking %}
+  <aside class="card">
+    <span class="badge badge-{{ booking.status|lower }}">{{ 'Bevestigd' if booking.status == 'CONFIRMED' else 'Geannuleerd' }}</span>
+    <h2>{{ booking.flight_number }}</h2>
+    <div class="kv"><span>Referentie</span><strong>{{ booking.booking_reference }}</strong></div>
+    <div class="kv"><span>Route</span><strong>{{ booking.origin }} → {{ booking.destination }}</strong></div>
+    <div class="kv"><span>Vertrek</span><strong>{{ booking.departure_at|nl_datetime }}</strong></div>
+    <div class="kv"><span>Stoelen</span><strong>{{ booking.seats }}</strong></div>
+    <div class="kv"><span>Totaal</span><strong>{{ booking.total_price_cents|money }}</strong></div>
+  </aside>
+  {% else %}
+  <aside class="card empty"><h3>Je boeking verschijnt hier</h3><p>De combinatie van referentie en e-mailadres beschermt je boekingsgegevens.</p></aside>
+  {% endif %}
+</div>
+{% endblock %}

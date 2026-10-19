@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %}{{ 'Vlucht bewerken' if flight else 'Nieuwe vlucht' }} · VluchtWinkel{% endblock %}
+{% block content %}
+<div class="topbar"><div><a href="{{ url_for('main.admin_dashboard') }}">← Terug naar beheer</a><h1>{{ 'Vlucht bewerken' if flight else 'Nieuwe vlucht aanmaken' }}</h1></div></div>
+<section class="card">
+  <form method="post">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    {% set post = request.form %}
+    <div class="grid grid-2">
+      <div class="form-group"><label for="flight_number">Vluchtnummer</label><input id="flight_number" name="flight_number" value="{{ post.get('flight_number', flight.flight_number if flight else '') }}" placeholder="VW101" required></div>
+      <div class="form-group"><label for="status">Verkoopstatus</label><select id="status" name="status">{% set selected_status = post.get('status', flight.status if flight else 'DRAFT') %}{% for value, label in labels.items() %}<option value="{{ value }}" {% if value == selected_status %}selected{% endif %}>{{ label }}</option>{% endfor %}</select></div>
+      <div class="form-group"><label for="origin">Vertrekplaats</label><input id="origin" name="origin" value="{{ post.get('origin', flight.origin if flight else '') }}" placeholder="Amsterdam (AMS)" required></div>
+      <div class="form-group"><label for="destination">Bestemming</label><input id="destination" name="destination" value="{{ post.get('destination', flight.destination if flight else '') }}" placeholder="Barcelona (BCN)" required></div>
+      <div class="form-group"><label for="departure_at">Vertrekdatum en -tijd</label><input id="departure_at" name="departure_at" type="datetime-local" value="{{ post.get('departure_at', flight.departure_at if flight else '') }}" required></div>
+      <div class="form-group"><label for="arrival_at">Aankomstdatum en -tijd</label><input id="arrival_at" name="arrival_at" type="datetime-local" value="{{ post.get('arrival_at', flight.arrival_at if flight else '') }}" required></div>
+      <div class="form-group"><label for="price">Prijs per stoel</label><input id="price" name="price" inputmode="decimal" value="{{ post.get('price', ('%.2f'|format(flight.price_cents / 100)) if flight else '') }}" placeholder="129,00" required><div class="help">Bedrag in euro, bijvoorbeeld 129,00.</div></div>
+      <div class="form-group"><label for="capacity">Capaciteit</label><input id="capacity" name="capacity" type="number" min="1" max="1000" value="{{ post.get('capacity', flight.capacity if flight else '') }}" required>{% if flight %}<div class="help">Er zijn {{ flight.booked_seats }} stoelen bevestigd.</div>{% endif %}</div>
+    </div>
+    <div class="form-group"><label for="notes">Notities / verkoopinformatie</label><textarea id="notes" name="notes">{{ post.get('notes', flight.notes if flight else '') }}</textarea></div>
+    <div class="actions"><button class="btn btn-success" type="submit">{{ 'Wijzigingen opslaan' if flight else 'Vlucht aanmaken' }}</button><a class="btn btn-secondary" href="{{ url_for('main.admin_dashboard') }}">Annuleren</a></div>
+  </form>
+</section>
+{% endblock %}

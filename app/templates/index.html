@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block title %}Vluchten zoeken · VluchtWinkel{% endblock %}
+{% block content %}
+<section class="hero">
+  <h1>De wereld begint met één boeking.</h1>
+  <p>Bekijk beschikbare vluchten, controleer de actuele stoelvoorraad en boek direct.</p>
+</section>
+
+<section class="card" aria-labelledby="zoek-titel">
+  <h2 id="zoek-titel">Zoek een vlucht</h2>
+  <form method="get" class="search-grid">
+    <div><label for="origin">Van</label><input id="origin" name="origin" value="{{ origin }}" placeholder="Bijv. Amsterdam"></div>
+    <div><label for="destination">Naar</label><input id="destination" name="destination" value="{{ destination }}" placeholder="Bijv. Barcelona"></div>
+    <div><label for="date">Vertrekdatum</label><input id="date" name="date" type="date" value="{{ travel_date }}"></div>
+    <button class="btn" type="submit">Zoeken</button>
+  </form>
+</section>
+
+<div class="topbar"><h2>Beschikbare vluchten</h2><span class="muted">{{ flights|length }} gevonden</span></div>
+{% for flight in flights %}
+<article class="card flight-card">
+  <div>
+    <div class="airport">{{ flight.origin }}</div>
+    <div class="date">{{ flight.departure_at|nl_datetime }}</div>
+  </div>
+  <div class="route-line">✈ {{ flight.flight_number }}</div>
+  <div>
+    <div class="airport">{{ flight.destination }}</div>
+    <div class="date">{{ flight.arrival_at|nl_datetime }}</div>
+  </div>
+  <div class="price">
+    <span class="muted">vanaf</span>
+    <strong>{{ flight.price_cents|money }}</strong>
+    <span class="muted">{{ flight.available_seats }} stoelen vrij</span><br><br>
+    <a class="btn" href="{{ url_for('main.flight_detail', flight_id=flight.id) }}">Bekijk & boek</a>
+  </div>
+</article>
+{% else %}
+<div class="card empty"><h3>Geen vluchten gevonden</h3><p>Pas je zoekopdracht aan of probeer een andere datum.</p></div>
+{% endfor %}
+{% endblock %}
